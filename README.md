@@ -1,10 +1,18 @@
-# Welcome to React Router!
+# Users Table - React Router App
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A modern, production-ready template for building full-stack React applications using React Router. This application demonstrates fetching user data from JSONPlaceholder API and displaying it in a sortable table using TanStack Table and shadcn/ui components.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
 
 ## Features
+
+- **User Data Fetching**: Fetches user data from JSONPlaceholder API
+- **TanStack Table**: Modern, feature-rich table component with sorting capabilities
+- **shadcn/ui Components**: Beautiful, accessible UI components
+- **TypeScript**: Full type safety throughout the application
+- **Responsive Design**: Works on desktop and mobile devices
+- **Error Handling**: Graceful error handling with retry functionality
+- **Loading States**: Smooth loading experiences during data fetching
 
 - 🚀 Server-side rendering
 - ⚡️ Hot Module Replacement (HMR)
