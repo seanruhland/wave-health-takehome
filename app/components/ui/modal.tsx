@@ -31,23 +31,9 @@ export function Modal({ isOpen, onClose, children, title, descriptionId }: Modal
 
       {/* Modal */}
       <div
-        className="relative z-50 w-full max-w-2xl mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+        className="relative z-50 w-full max-w-lg mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
         role="document"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
-          <h2 id="modal-title" className="text-xl font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="h-8 w-8"
-            aria-label="Close modal"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-          </Button>
-        </div>
-
         {/* Content */}
         <div className="p-6">
           {children}

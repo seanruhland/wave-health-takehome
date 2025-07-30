@@ -293,11 +293,10 @@ export default function Home() {
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
-          title={selectedUser ? `${selectedUser.name} - Details` : "User Details"}
         >
           {selectedUser && (
             <Suspense fallback={<div className="p-4 text-center">Loading user details...</div>}>
-              <UserDetails user={selectedUser} />
+              <UserDetails user={selectedUser} onClose={closeModal} />
             </Suspense>
           )}
         </Modal>
