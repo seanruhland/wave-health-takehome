@@ -10,9 +10,9 @@ import type { User } from "~/types/user";
 const addUserSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   username: z.string().min(3, "Username must be at least 3 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().min(1, "Email is required").regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email address"),
   phone: z.string().optional(),
-  website: z.string().url().optional().or(z.literal("")),
+  website: z.string().optional().or(z.literal("")).refine((val) => !val || /^https?:\/\/.+/.test(val), "Please enter a valid URL"),
   street: z.string().min(1, "Street is required"),
   suite: z.string().min(1, "Suite is required"),
   city: z.string().min(1, "City is required"),
