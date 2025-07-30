@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigation } from "react-router";
+import { useLoaderData, useNavigation, useNavigate } from "react-router";
 import {
   createColumnHelper,
   flexRender,
@@ -27,6 +27,7 @@ import { Input } from "~/components/ui/input";
 import { Modal } from "~/components/ui/modal";
 import { UserDetails } from "~/components/user-details";
 import { useModal } from "~/contexts/modal-context";
+import { Plus } from "lucide-react";
 
 export async function loader() {
   try {
@@ -76,6 +77,7 @@ const columns = [
 export default function Home() {
   const { users, error } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  const navigate = useNavigate();
   const { isModalOpen, selectedUser, openModal, closeModal } = useModal();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -144,10 +146,21 @@ export default function Home() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Users</h1>
-        <p className="text-gray-600">
-          Displaying {users.length} users from JSONPlaceholder API
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Users</h1>
+            <p className="text-gray-600">
+              Displaying {users.length} users from JSONPlaceholder API
+            </p>
+          </div>
+          <Button
+            onClick={() => navigate("/add-user")}
+            className="flex items-center space-x-2"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Add User</span>
+          </Button>
+        </div>
       </div>
 
       <div className="mb-4">
