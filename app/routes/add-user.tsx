@@ -4,6 +4,7 @@ import type { User } from "~/types/user";
 import type { Route } from "./+types/add-user";
 import { Button } from "~/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { ClientOnly } from "~/components/client-only";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,28 +30,31 @@ export default function AddUser() {
     navigate("/");
   };
 
-    return (
+  return (
     <div className="container mx-auto p-4">
       <div className="mb-4">
         <div className="flex items-center space-x-4 mb-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => navigate("/")}
-            className="flex items-center space-x-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Users</span>
-          </Button>
+          <ClientOnly fallback={<div className="h-9 w-24 rounded-md border bg-gray-100 animate-pulse" />}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/")}
+              className="flex items-center space-x-2"
+              aria-label="Go back to users list"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              <span>Back to Users</span>
+            </Button>
+          </ClientOnly>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Add New User</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Add New User</h1>
         <p className="text-gray-600 text-sm">
           Fill out the form below to add a new user to the system.
         </p>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border p-4">
+      <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
         <AddUserForm onSubmit={handleSubmit} onCancel={handleCancel} />
       </div>
     </div>

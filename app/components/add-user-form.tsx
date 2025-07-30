@@ -31,6 +31,7 @@ interface AddUserFormProps {
 
 export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [nextId, setNextId] = useState(1000);
 
   const {
     register,
@@ -60,7 +61,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
 
     // Create a new user object
     const newUser: User = {
-      id: Date.now(), // Generate a temporary ID
+      id: nextId,
       name: data.name,
       username: data.username,
       email: data.email,
@@ -86,6 +87,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
     try {
       onSubmit(newUser);
       reset();
+      setNextId(prev => prev + 1);
     } catch (error) {
       console.error("Error adding user:", error);
     } finally {
@@ -94,51 +96,66 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4" noValidate>
       {/* Basic Information */}
       <div className="space-y-3">
         <h3 className="text-base font-medium">Basic Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Name *
             </label>
             <Input
+              id="name"
               {...register("name")}
               placeholder="Enter full name"
               className={`h-9 ${errors.name ? "border-red-500" : ""}`}
+              aria-describedby={errors.name ? "name-error" : undefined}
+              aria-invalid={!!errors.name}
             />
             {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+              <p id="name-error" className="text-red-500 text-xs mt-1" role="alert">
+                {errors.name.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
               Username *
             </label>
             <Input
+              id="username"
               {...register("username")}
               placeholder="Enter username"
               className={`h-9 ${errors.username ? "border-red-500" : ""}`}
+              aria-describedby={errors.username ? "username-error" : undefined}
+              aria-invalid={!!errors.username}
             />
             {errors.username && (
-              <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>
+              <p id="username-error" className="text-red-500 text-xs mt-1" role="alert">
+                {errors.username.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email *
             </label>
             <Input
+              id="email"
               {...register("email")}
               type="email"
               placeholder="Enter email address"
               className={`h-9 ${errors.email ? "border-red-500" : ""}`}
+              aria-describedby={errors.email ? "email-error" : undefined}
+              aria-invalid={!!errors.email}
             />
             {errors.email && (
-              <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+              <p id="email-error" className="text-red-500 text-xs mt-1" role="alert">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -172,7 +189,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
       {/* Address Information */}
       <div className="space-y-3">
         <h3 className="text-base font-medium">Address Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Street *
@@ -234,7 +251,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
       {/* Company Information */}
       <div className="space-y-3">
         <h3 className="text-base font-medium">Company Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Company Name *
