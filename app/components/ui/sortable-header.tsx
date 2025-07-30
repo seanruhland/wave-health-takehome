@@ -15,11 +15,21 @@ export function SortableHeader<TData, TValue>({
     return <div className="h-4">{children}</div>;
   }
 
+  // Determine sort state for ARIA
+  let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
+  if (column.getIsSorted() === 'asc') ariaSort = 'ascending';
+  else if (column.getIsSorted() === 'desc') ariaSort = 'descending';
+
+  // Accessible label
+  const label = `Sort by ${typeof children === 'string' ? children : ''}, ${ariaSort}`;
+
   return (
     <Button
       variant="ghost"
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       className="h-8 p-0 font-medium hover:bg-transparent"
+      aria-label={label}
+      aria-sort={ariaSort}
     >
       {children}
       {column.getIsSorted() === "asc" ? (

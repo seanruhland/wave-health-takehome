@@ -8,9 +8,10 @@ interface ModalProps {
   onClose: () => void
   children: React.ReactNode
   title?: string
+  descriptionId?: string // Optional: id of element describing the modal
 }
 
-export function Modal({ isOpen, onClose, children, title }: ModalProps) {
+export function Modal({ isOpen, onClose, children, title, descriptionId }: ModalProps) {
   if (!isOpen) return null
 
   return (
@@ -19,6 +20,7 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
+      {...(descriptionId ? { 'aria-describedby': descriptionId } : {})}
     >
       {/* Backdrop */}
       <div
