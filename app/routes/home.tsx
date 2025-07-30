@@ -24,6 +24,9 @@ import { Button } from "~/components/ui/button";
 import { Loading } from "~/components/ui/loading";
 import { SortableHeader } from "~/components/ui/sortable-header";
 import { Input } from "~/components/ui/input";
+import { Modal } from "~/components/ui/modal";
+import { UserDetails } from "~/components/user-details";
+import { useModal } from "~/contexts/modal-context";
 
 export async function loader() {
   try {
@@ -45,11 +48,6 @@ export function meta({}: Route.MetaArgs) {
 const columnHelper = createColumnHelper<User>();
 
 const columns = [
-  columnHelper.accessor("id", {
-    header: ({ column }) => <SortableHeader column={column}>ID</SortableHeader>,
-    cell: (info) => info.getValue(),
-    enableSorting: true,
-  }),
   columnHelper.accessor("name", {
     header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,
     cell: (info) => info.getValue(),
@@ -59,55 +57,6 @@ const columns = [
     header: ({ column }) => <SortableHeader column={column}>Username</SortableHeader>,
     cell: (info) => info.getValue(),
     enableSorting: true,
-  }),
-  columnHelper.accessor("email", {
-    header: ({ column }) => <SortableHeader column={column}>Email</SortableHeader>,
-    cell: (info) => (
-      <a
-        href={`mailto:${info.getValue()}`}
-        className="text-blue-600 hover:text-blue-800 underline"
-      >
-        {info.getValue()}
-      </a>
-    ),
-    enableSorting: true,
-  }),
-  columnHelper.accessor("address", {
-    header: "Address",
-    cell: (info) => {
-      const address = info.getValue();
-      return (
-        <div className="text-sm">
-          <div>{address.street}</div>
-          <div>{address.suite}</div>
-          <div>{address.city}, {address.zipcode}</div>
-          <div className="text-xs text-muted-foreground">
-            Lat: {address.geo.lat}, Lng: {address.geo.lng}
-          </div>
-        </div>
-      );
-    },
-  }),
-  columnHelper.accessor("phone", {
-    header: "Phone",
-    cell: (info) => info.getValue() || "N/A",
-  }),
-  columnHelper.accessor("website", {
-    header: "Website",
-    cell: (info) => {
-      const website = info.getValue();
-      if (!website) return "N/A";
-      return (
-        <a
-          href={`https://${website}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 underline"
-        >
-          {website}
-        </a>
-      );
-    },
   }),
   columnHelper.accessor("company", {
     header: "Company",
@@ -127,6 +76,7 @@ const columns = [
 export default function Home() {
   const { users, error } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  const { isModalOpen, selectedUser, openModal, closeModal } = useModal();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -243,6 +193,8 @@ export default function Home() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => openModal(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -267,6 +219,15 @@ export default function Home() {
           </TableBody>
         </Table>
       </div>
+
+      {/* User Details Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={selectedUser ? `${selectedUser.name} - Details` : "User Details"}
+      >
+        {selectedUser && <UserDetails user={selectedUser} />}
+      </Modal>
     </div>
   );
 }
