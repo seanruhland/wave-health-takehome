@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
   getSortedRowModel,
+  getFilteredRowModel,
   type SortingState,
 } from "@tanstack/react-table";
 import { useState } from "react";
@@ -22,6 +23,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Loading } from "~/components/ui/loading";
 import { SortableHeader } from "~/components/ui/sortable-header";
+import { Input } from "~/components/ui/input";
 
 export async function loader() {
   try {
@@ -79,6 +81,9 @@ const columns = [
           <div>{address.street}</div>
           <div>{address.suite}</div>
           <div>{address.city}, {address.zipcode}</div>
+          <div className="text-xs text-muted-foreground">
+            Lat: {address.geo.lat}, Lng: {address.geo.lng}
+          </div>
         </div>
       );
     },
@@ -104,12 +109,26 @@ const columns = [
       );
     },
   }),
+  columnHelper.accessor("company", {
+    header: "Company",
+    cell: (info) => {
+      const company = info.getValue();
+      if (!company) return "N/A";
+      return (
+        <div className="text-sm">
+          <div className="font-medium">{company.name}</div>
+          <div className="text-xs text-muted-foreground">{company.catchPhrase}</div>
+        </div>
+      );
+    },
+  }),
 ];
 
 export default function Home() {
   const { users, error } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   // Show loading state while navigating
   if (navigation.state === "loading") {
@@ -121,9 +140,37 @@ export default function Home() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, columnId, filterValue) => {
+      const user = row.original;
+      const searchValue = filterValue.toLowerCase();
+
+      // Search through all user properties including nested objects
+      const searchableText = [
+        user.id.toString(),
+        user.name,
+        user.username,
+        user.email,
+        user.phone || '',
+        user.website || '',
+        user.address.street,
+        user.address.suite,
+        user.address.city,
+        user.address.zipcode,
+        user.address.geo.lat,
+        user.address.geo.lng,
+        user.company?.name || '',
+        user.company?.catchPhrase || '',
+        user.company?.bs || '',
+      ].join(' ').toLowerCase();
+
+      return searchableText.includes(searchValue);
+    },
     state: {
       sorting,
+      globalFilter,
     },
   });
 
@@ -151,6 +198,25 @@ export default function Home() {
         <p className="text-gray-600">
           Displaying {users.length} users from JSONPlaceholder API
         </p>
+      </div>
+
+      <div className="mb-4">
+        <div className="flex items-center space-x-2">
+          <Input
+            placeholder="Search by name, username, email, address, phone, website..."
+            value={globalFilter ?? ""}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            className="max-w-sm"
+          />
+          <span className="text-sm text-muted-foreground">
+            {table.getFilteredRowModel().rows.length} of {table.getRowModel().rows.length} users
+          </span>
+        </div>
+        {globalFilter && (
+          <p className="text-xs text-muted-foreground mt-1">
+            Searching across all fields including address, phone, and website
+          </p>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border">
