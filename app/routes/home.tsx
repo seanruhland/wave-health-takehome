@@ -25,6 +25,7 @@ import { Button } from "~/components/ui/button";
 import { Loading } from "~/components/ui/loading";
 import { SortableHeader } from "~/components/ui/sortable-header";
 import { Input } from "~/components/ui/input";
+import { ThemeToggle } from "~/components/ui/theme-toggle";
 import { useModal } from "~/contexts/modal-context";
 import { ClientOnly } from "~/components/client-only";
 import { useDebounce } from "~/hooks/use-debounce";
@@ -72,8 +73,8 @@ const columns = [
       if (!company) return "N/A";
       return (
         <div className="text-sm">
-          <div className="font-medium">{company.name}</div>
-          <div className="text-xs text-muted-foreground">{company.catchPhrase}</div>
+          <div className="font-medium text-gray-900 dark:text-gray-100">{company.name}</div>
+          <div className="text-xs text-muted-foreground dark:text-gray-400">{company.catchPhrase}</div>
         </div>
       );
     },
@@ -144,9 +145,9 @@ export default function Home() {
   if (error) {
     return (
       <div className="container mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-          <h2 className="text-red-800 font-semibold">Error Loading Users</h2>
-          <p className="text-red-600">{error}</p>
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
+          <h2 className="text-red-800 dark:text-red-200 font-semibold">Error Loading Users</h2>
+          <p className="text-red-600 dark:text-red-300">{error}</p>
           <Button
             onClick={() => window.location.reload()}
             className="mt-2"
@@ -163,21 +164,26 @@ export default function Home() {
       <div className="mb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Users</h1>
-            <p className="text-gray-600 text-xs sm:text-sm">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">Users</h1>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
               Displaying {table.getFilteredRowModel().rows.length} of {users.length} users from JSONPlaceholder API
             </p>
           </div>
-          <ClientOnly fallback={<div className="h-9 w-full sm:w-auto rounded-md border bg-gray-100 animate-pulse" />}>
-            <Button
-              onClick={() => navigate("/add-user")}
-              className="flex items-center space-x-2 w-full sm:w-auto h-9"
-              aria-label="Add new user"
-            >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-              <span>Add User</span>
-            </Button>
-          </ClientOnly>
+          <div className="flex items-center gap-2">
+            <ClientOnly fallback={<div className="h-9 w-9 rounded-md border bg-gray-100 animate-pulse" />}>
+              <ThemeToggle />
+            </ClientOnly>
+            <ClientOnly fallback={<div className="h-9 w-full sm:w-auto rounded-md border bg-gray-100 animate-pulse" />}>
+              <Button
+                onClick={() => navigate("/add-user")}
+                className="flex items-center space-x-2 w-full sm:w-auto h-9"
+                aria-label="Add new user"
+              >
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                <span>Add User</span>
+              </Button>
+            </ClientOnly>
+          </div>
         </div>
       </div>
 
@@ -198,7 +204,7 @@ export default function Home() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => setGlobalFilter("")}
                   aria-label="Clear search"
                 >
@@ -218,15 +224,15 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700">
         <ErrorBoundary fallback={<div className="p-4 text-center text-red-600">Error loading table. Please refresh the page.</div>}>
           <ClientOnly fallback={<div className="p-4 text-center">Loading table...</div>}>
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id} className="border-b dark:border-gray-700">
                     {headerGroup.headers.map((header) => (
-                      <TableHead key={header.id}>
+                      <TableHead key={header.id} className="text-gray-900 dark:text-gray-100">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -244,7 +250,7 @@ export default function Home() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
-                      className="cursor-pointer hover:bg-gray-50"
+                      className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 border-b dark:border-gray-700"
                       onClick={() => openModal(row.original)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -257,7 +263,7 @@ export default function Home() {
                       aria-label={`View details for ${row.original.name}`}
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell key={cell.id} className="text-gray-900 dark:text-gray-100">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -268,10 +274,10 @@ export default function Home() {
                   ))
                 ) : (
                   <TableRow>
-                                      <TableCell
-                    colSpan={memoizedColumns.length}
-                    className="h-24 text-center"
-                  >
+                    <TableCell
+                      colSpan={memoizedColumns.length}
+                      className="h-24 text-center text-gray-500 dark:text-gray-400"
+                    >
                       No results.
                     </TableCell>
                   </TableRow>

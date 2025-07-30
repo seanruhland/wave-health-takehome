@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import { ModalProvider } from "./contexts/modal-context";
+import { ThemeProvider } from "./contexts/theme-context";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -44,9 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <ModalProvider>
-      <Outlet />
-    </ModalProvider>
+    <ThemeProvider>
+      <ModalProvider>
+        <Outlet />
+      </ModalProvider>
+    </ThemeProvider>
   );
 }
 

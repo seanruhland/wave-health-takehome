@@ -12,6 +12,7 @@
 - **Error Handling**: Graceful error handling with retry functionality
 - **Loading States**: Smooth loading experiences during data fetching
 - **Accessibility**: ARIA attributes, keyboard navigation, and screen reader support
+- **Dark Mode Toggle**: Theme switching with system preference detection and persistence
 - **Testing**: Comprehensive Playwright E2E and component tests
 
 - 🚀 Server-side rendering
@@ -20,6 +21,7 @@
 - 🔄 Data loading and mutations
 - 🔒 TypeScript by default
 - 🎉 TailwindCSS for styling
+- 🌙 Dark mode support
 - 🧪 Playwright testing
 - ♿ Accessibility-first design
 - 📖 [React Router docs](https://reactrouter.com/)
@@ -148,6 +150,16 @@ tests/
 - **Debouncing**: Search input debounced for performance
 - **Memoization**: React.memo for expensive components
 - **Bundle Optimization**: Tree-shaking and code splitting
+
+### Dark Mode Implementation
+
+- **Theme Context**: React Context for global theme state management
+- **System Preference**: Automatically detects user's system dark mode preference
+- **Local Storage**: Persists theme choice across browser sessions
+- **CSS Variables**: Uses Tailwind's dark mode utilities with CSS custom properties
+- **Accessible Toggle**: Theme toggle with proper ARIA labels and keyboard support
+- **Component Integration**: All UI components support both light and dark themes
+- **Smooth Transitions**: Instant theme switching without page reload
 
 ## Assumptions & Constraints
 

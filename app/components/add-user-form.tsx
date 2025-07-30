@@ -99,10 +99,10 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
     <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4" noValidate>
       {/* Basic Information */}
       <div className="space-y-3">
-        <h3 className="text-base font-medium">Basic Information</h3>
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">Basic Information</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Name *
             </label>
             <Input
@@ -121,7 +121,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Username *
             </label>
             <Input
@@ -140,7 +140,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Email *
             </label>
             <Input
@@ -160,7 +160,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Phone
             </label>
             <Input
@@ -171,7 +171,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Website
             </label>
             <Input
@@ -188,10 +188,10 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
 
       {/* Address Information */}
       <div className="space-y-3">
-        <h3 className="text-base font-medium">Address Information</h3>
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">Address Information</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Street *
             </label>
             <Input
@@ -205,7 +205,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Suite *
             </label>
             <Input
@@ -219,7 +219,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               City *
             </label>
             <Input
@@ -233,7 +233,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Zipcode *
             </label>
             <Input
@@ -250,10 +250,10 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
 
       {/* Company Information */}
       <div className="space-y-3">
-        <h3 className="text-base font-medium">Company Information</h3>
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">Company Information</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Company Name *
             </label>
             <Input
@@ -267,7 +267,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Catch Phrase
             </label>
             <Input
@@ -278,7 +278,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Company BS
             </label>
             <Input
@@ -291,7 +291,7 @@ export function AddUserForm({ onSubmit, onCancel }: AddUserFormProps) {
       </div>
 
       {/* Form Actions */}
-      <div className="flex justify-end space-x-3 pt-4 border-t">
+      <div className="flex justify-end space-x-3 pt-4 border-t dark:border-gray-700">
         <Button
           type="button"
           variant="outline"

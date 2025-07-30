@@ -3,6 +3,7 @@ import { AddUserForm } from "~/components/add-user-form";
 import type { User } from "~/types/user";
 import type { Route } from "./+types/add-user";
 import { Button } from "~/components/ui/button";
+import { ThemeToggle } from "~/components/ui/theme-toggle";
 import { ArrowLeft } from "lucide-react";
 import { ClientOnly } from "~/components/client-only";
 
@@ -33,7 +34,7 @@ export default function AddUser() {
   return (
     <div className="container mx-auto p-4">
       <div className="mb-4">
-        <div className="flex items-center space-x-4 mb-3">
+        <div className="flex items-center justify-between mb-3">
           <ClientOnly fallback={<div className="h-9 w-24 rounded-md border bg-gray-100 animate-pulse" />}>
             <Button
               variant="outline"
@@ -46,15 +47,18 @@ export default function AddUser() {
               <span>Back to Users</span>
             </Button>
           </ClientOnly>
+          <ClientOnly fallback={<div className="h-9 w-9 rounded-md border bg-gray-100 animate-pulse" />}>
+            <ThemeToggle />
+          </ClientOnly>
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Add New User</h1>
-        <p className="text-gray-600 text-sm">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">Add New User</h1>
+        <p className="text-gray-600 dark:text-gray-400 text-sm">
           Fill out the form below to add a new user to the system.
         </p>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-4 sm:p-6">
         <AddUserForm onSubmit={handleSubmit} onCancel={handleCancel} />
       </div>
     </div>
